@@ -1,31 +1,86 @@
-<h1>Nova Venda</h1>
 
-<form action="{{ route('vendas.store') }}" method="POST">
+<x-app-layout>
 
-    @csrf
+<div class="min-h-screen bg-black text-white p-8">
 
-    <label>Produto:</label>
-    <input type="text" name="produto">
+    <div class="max-w-2xl mx-auto bg-zinc-900 p-8 rounded-2xl shadow-lg">
 
-    <br><br>
+        <h1 class="text-4xl text-red-600 font-bold mb-8">
+            Nova Venda
+        </h1>
 
-    <label>Cliente:</label>
-    <input type="text" name="cliente">
+        <form action="{{ route('vendas.store') }}" method="POST">
 
-    <br><br>
+            @csrf
 
-    <label>Valor:</label>
-    <input type="text" name="valor">
+            <div class="mb-5">
 
-    <br><br>
+                <label class="block mb-2">
+                    Produto
+                </label>
 
-    <label>Data da Venda:</label>
-    <input type="date" name="data_venda">
+                <input
+                    type="text"
+                    name="produto"
+                    class="w-full bg-zinc-800 text-white border border-zinc-700 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
+                >
 
-    <br><br>
+            </div>
 
-    <button type="submit">
-        Salvar
-    </button>
+            <div class="mb-5">
 
-</form>
+                <label class="block mb-2">
+                    Cliente
+                </label>
+
+                <input
+                    type="text"
+                    name="cliente"
+                    class="w-full bg-zinc-800 text-white border border-zinc-700 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
+                >
+
+            </div>
+
+            <div class="mb-5">
+
+                <label class="block mb-2">
+                    Valor
+                </label>
+
+                <input
+                    type="text"
+                    name="valor"
+                    class="w-full bg-zinc-800 text-white border border-zinc-700 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
+                >
+
+            </div>
+
+            <div class="mb-8">
+
+                <label class="block mb-2">
+                    Data da Venda
+                </label>
+
+                <input
+                    type="date"
+                    name="data_venda"
+                    class="w-full bg-zinc-800 text-white border border-zinc-700 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
+                >
+
+            </div>
+
+            <button
+                class="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-xl font-bold">
+
+                Salvar Venda
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</x-app-layout>
+
