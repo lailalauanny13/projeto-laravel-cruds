@@ -1,4 +1,3 @@
-
 <x-guest-layout>
 
     <div class="min-h-screen flex items-center justify-center bg-black">
@@ -13,7 +12,8 @@
                 Faça login para acessar o sistema
             </p>
 
-            <x-auth-session-status class="mb-4" :status="session('status')" />
+            <!-- Session Status -->
+            <x-auth-session-status class="mb-4 text-green-500" :status="session('status')" />
 
             <form method="POST" action="{{ route('login') }}">
 
@@ -26,15 +26,17 @@
                     </label>
 
                     <input
+                        id="email"
                         type="email"
                         name="email"
                         value="{{ old('email') }}"
                         required
                         autofocus
+                        autocomplete="username"
                         class="w-full bg-zinc-800 text-white border border-zinc-700 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
                     >
 
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-500" />
                 </div>
 
                 <!-- Senha -->
@@ -45,25 +47,28 @@
                     </label>
 
                     <input
+                        id="password"
                         type="password"
                         name="password"
                         required
+                        autocomplete="current-password"
                         class="w-full bg-zinc-800 text-white border border-zinc-700 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
                     >
 
-                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-500" />
 
                 </div>
 
-                <!-- Lembrar -->
+                <!-- Lembrar-me -->
                 <div class="mt-5">
 
                     <label class="inline-flex items-center">
 
                         <input
+                            id="remember_me"
                             type="checkbox"
                             name="remember"
-                            class="rounded border-zinc-700 text-red-600"
+                            class="rounded border-zinc-700 text-red-600 focus:ring-red-600"
                         >
 
                         <span class="ml-2 text-gray-400">
@@ -74,6 +79,23 @@
 
                 </div>
 
+                <!-- Esqueci a senha -->
+                @if (Route::has('password.request'))
+
+                    <div class="mt-4">
+
+                        <a
+                            class="text-sm text-gray-400 hover:text-red-500"
+                            href="{{ route('password.request') }}"
+                        >
+                            Esqueceu sua senha?
+                        </a>
+
+                    </div>
+
+                @endif
+
+                <!-- Botão -->
                 <button
                     type="submit"
                     class="w-full mt-8 bg-red-600 hover:bg-red-700 duration-300 text-white py-3 rounded-xl font-bold"
@@ -88,4 +110,3 @@
     </div>
 
 </x-guest-layout>
-```
