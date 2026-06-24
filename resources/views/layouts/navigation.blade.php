@@ -1,67 +1,70 @@
+<nav x-data="{ open: false }" class="bg-black border-b border-red-600 shadow-lg">
 
-<nav class="bg-zinc-950 border-b border-zinc-800 shadow-lg">
-
-    <div class="max-w-7xl mx-auto px-6">
-
-        <div class="flex justify-between items-center h-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
 
             <!-- Logo -->
-            <div class="flex items-center gap-8">
-
+            <div class="flex items-center">
                 <a href="{{ route('dashboard') }}"
-                   class="text-3xl font-bold text-red-600">
-
-                    Larpintmax
-
+                   class="text-2xl font-bold text-red-600 hover:text-red-500">
+                    🎨 Larpintmax
                 </a>
 
-                <div class="hidden md:flex items-center gap-6">
-
+                <div class="hidden sm:flex sm:items-center sm:ml-10">
                     <a href="{{ route('dashboard') }}"
-                       class="text-gray-300 hover:text-red-500 font-semibold duration-300">
+                       class="text-white hover:text-red-500 font-semibold">
                         Dashboard
                     </a>
-
-                    <a href="{{ route('produtos.index') }}"
-                       class="text-gray-300 hover:text-red-500 font-semibold duration-300">
-                        Produtos
-                    </a>
-
-                    <a href="{{ route('clientes.index') }}"
-                       class="text-gray-300 hover:text-red-500 font-semibold duration-300">
-                        Clientes
-                    </a>
-
-                    <a href="{{ route('vendas.index') }}"
-                       class="text-gray-300 hover:text-red-500 font-semibold duration-300">
-                        Vendas
-                    </a>
-
                 </div>
-
             </div>
 
             <!-- Usuário -->
-            <div class="flex items-center gap-4">
-
-                <div class="text-gray-300">
+            <div class="hidden sm:flex sm:items-center">
+                <span class="text-white mr-4">
                     {{ Auth::user()->name }}
-                </div>
+                </span>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
                     <button
                         type="submit"
-                        class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-xl text-white font-bold duration-300">
-
+                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition">
                         Sair
-
                     </button>
-
                 </form>
-
             </div>
+
+            <!-- Mobile -->
+            <div class="flex items-center sm:hidden">
+                <button @click="open = ! open"
+                        class="text-red-500 hover:text-red-400">
+                    ☰
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Menu Mobile -->
+    <div x-show="open" class="sm:hidden bg-zinc-900">
+
+        <div class="px-4 py-3">
+
+            <a href="{{ route('dashboard') }}"
+               class="block text-white hover:text-red-500 mb-3">
+                Dashboard
+            </a>
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+
+                <button
+                    type="submit"
+                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full">
+                    Sair
+                </button>
+            </form>
 
         </div>
 
