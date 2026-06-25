@@ -1,93 +1,72 @@
-<x-app-layout>
-    <div class="min-h-screen bg-black px-10 py-8">
+@extends('layouts.app')
 
-        <!-- Título -->
-        <div class="mb-10">
-            <h1 class="text-5xl font-bold text-white">
-                Painel de Controle
-            </h1>
+@section('title', 'Dashboard')
 
-            <p class="text-gray-400 mt-2 text-lg">
-                Selecione uma das áreas do sistema Larpintmax para gerenciar.
-            </p>
-        </div>
+@section('conteudo')
 
-        <!-- Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+<div class="cabecalho-pagina">
+    <h2>Dashboard</h2>
+</div>
 
-            <!-- Produtos -->
-            <a href="{{ route('produtos.index') }}"
-               class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 shadow-xl hover:border-red-600 hover:-translate-y-2 duration-300">
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 28px;">
 
-                <div class="w-16 h-16 rounded-2xl bg-red-950 flex items-center justify-center mb-6">
-                    <span class="text-3xl">📦</span>
-                </div>
-
-                <h2 class="text-3xl font-bold text-white mb-4">
-                    Produtos
-                </h2>
-
-                <p class="text-gray-400 mb-6">
-                    Gerencie estoque, preços e especificações dos produtos.
-                </p>
-
-                <span class="text-red-500 font-semibold">
-                    Acessar módulo →
-                </span>
-
-            </a>
-
-            <!-- Clientes -->
-            <a href="{{ route('clientes.index') }}"
-               class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 shadow-xl hover:border-red-600 hover:-translate-y-2 duration-300">
-
-                <div class="w-16 h-16 rounded-2xl bg-red-950 flex items-center justify-center mb-6">
-                    <span class="text-3xl">👤</span>
-                </div>
-
-                <h2 class="text-3xl font-bold text-white mb-4">
-                    Clientes
-                </h2>
-
-                <p class="text-gray-400 mb-6">
-                    Visualize e gerencie os clientes cadastrados.
-                </p>
-
-                <span class="text-red-500 font-semibold">
-                    Acessar módulo →
-                </span>
-
-            </a>
-
-            <!-- Vendas -->
-            <a href="{{ route('vendas.index') }}"
-               class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 shadow-xl hover:border-red-600 hover:-translate-y-2 duration-300">
-
-                <div class="w-16 h-16 rounded-2xl bg-red-950 flex items-center justify-center mb-6">
-                    <span class="text-3xl">💰</span>
-                </div>
-
-                <h2 class="text-3xl font-bold text-white mb-4">
-                    Vendas
-                </h2>
-
-                <p class="text-gray-400 mb-6">
-                    Acompanhe e controle as vendas realizadas.
-                </p>
-
-                <span class="text-red-500 font-semibold">
-                    Acessar módulo →
-                </span>
-
-            </a>
-
-        </div>
-
-        <!-- Rodapé -->
-        <div class="border-t border-zinc-800 mt-20 pt-8 flex justify-between text-gray-500 text-sm">
-            <span>© 2026 Larpintmax. Todos os direitos reservados.</span>
-            <span>Painel v2.0</span>
-        </div>
-
+    <div class="card" style="border-top: 3px solid #cc0000; text-align: center;">
+        {{-- Ícone: coloque public/images/icone-clientes.png (48x48px) --}}
+        {{-- <img src="{{ asset('images/icone-clientes.png') }}" style="width:48px; margin-bottom:10px;"> --}}
+        <div style="font-size: 36px; margin-bottom: 8px;">👤</div>
+        <div style="font-size: 32px; font-weight: 700; color: #ffffff;">{{ $totalClientes }}</div>
+        <div style="font-size: 13px; color: #888; margin-top: 4px;">Clientes cadastrados</div>
+        <a href="{{ route('clientes.index') }}" class="btn btn-cinza" style="margin-top: 14px; font-size: 12px;">Ver todos</a>
     </div>
-</x-app-layout>
+
+    <div class="card" style="border-top: 3px solid #cc0000; text-align: center;">
+        {{-- Ícone: coloque public/images/icone-produtos.png (48x48px) --}}
+        <div style="font-size: 36px; margin-bottom: 8px;">📦</div>
+        <div style="font-size: 32px; font-weight: 700; color: #ffffff;">{{ $totalProdutos }}</div>
+        <div style="font-size: 13px; color: #888; margin-top: 4px;">Produtos cadastrados</div>
+        <a href="{{ route('produtos.index') }}" class="btn btn-cinza" style="margin-top: 14px; font-size: 12px;">Ver todos</a>
+    </div>
+
+    <div class="card" style="border-top: 3px solid #cc0000; text-align: center;">
+        {{-- Ícone: coloque public/images/icone-vendas.png (48x48px) --}}
+        <div style="font-size: 36px; margin-bottom: 8px;">🛒</div>
+        <div style="font-size: 32px; font-weight: 700; color: #ffffff;">{{ $totalVendas }}</div>
+        <div style="font-size: 13px; color: #888; margin-top: 4px;">Vendas realizadas</div>
+        <a href="{{ route('vendas.index') }}" class="btn btn-cinza" style="margin-top: 14px; font-size: 12px;">Ver todas</a>
+    </div>
+
+</div>
+
+<div class="card">
+    <h3 style="color: #ffffff; margin-bottom: 16px; font-size: 16px;">Últimas vendas</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Cliente</th>
+                <th>Produto</th>
+                <th>Valor</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($ultimasVendas as $venda)
+            <tr>
+                <td>{{ $venda->id }}</td>
+                <td>{{ $venda->cliente->nome }}</td>
+                <td>{{ $venda->produto->nome }}</td>
+                <td>R$ {{ number_format($venda->valor_total, 2, ',', '.') }}</td>
+                <td>{{ \Carbon\Carbon::parse($venda->data_venda)->format('d/m/Y') }}</td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="5" style="text-align:center; color:#666; padding: 20px;">
+                    Nenhuma venda registrada ainda.
+                </td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+@endsection

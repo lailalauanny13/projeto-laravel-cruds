@@ -1,40 +1,299 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="pt-BR">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Sistema de Vendas')</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <title>Larpintmax</title>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #d4d4d4;
+            min-height: 100vh;
+        }
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        /* ---- SIDEBAR ---- */
+        .sidebar {
+            width: 230px;
+            background-color: #111111;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid #cc0000;
+        }
 
-    <!-- Tailwind -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+        .sidebar-logo {
+            padding: 28px 20px 22px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .sidebar-logo h1 {
+            font-size: 18px;
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-logo span {
+            color: #cc0000;
+        }
+
+        /* imagem do logo: coloque em public/images/logo.png (aprox. 160x40px) */
+        .sidebar-logo img {
+            width: 100%;
+            max-width: 160px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .sidebar-nav {
+            padding: 16px 0;
+            flex: 1;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 12px 20px;
+            color: #aaaaaa;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.15s, color 0.15s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.ativo {
+            background-color: #1f1f1f;
+            color: #ffffff;
+            border-left-color: #cc0000;
+        }
+
+        .sidebar-nav .icone {
+            margin-right: 8px;
+            font-size: 15px;
+        }
+
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #2a2a2a;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .sidebar-footer a {
+            color: #cc0000;
+            text-decoration: none;
+        }
+
+        /* ---- CONTEÚDO PRINCIPAL ---- */
+        .conteudo {
+            margin-left: 230px;
+            padding: 32px 36px;
+            min-height: 100vh;
+        }
+
+        .cabecalho-pagina {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+
+        .cabecalho-pagina h2 {
+            font-size: 22px;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* ---- CARDS / TABELAS ---- */
+        .card {
+            background-color: #222222;
+            border: 1px solid #2e2e2e;
+            border-radius: 6px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead th {
+            background-color: #1a1a1a;
+            color: #cc0000;
+            padding: 11px 14px;
+            text-align: left;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        tbody tr:hover {
+            background-color: #272727;
+        }
+
+        tbody td {
+            padding: 11px 14px;
+            color: #cccccc;
+        }
+
+        /* ---- BOTÕES ---- */
+        .btn {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            transition: opacity 0.15s;
+        }
+
+        .btn:hover { opacity: 0.85; }
+
+        .btn-vermelho {
+            background-color: #cc0000;
+            color: #ffffff;
+        }
+
+        .btn-cinza {
+            background-color: #3a3a3a;
+            color: #dddddd;
+        }
+
+        .btn-perigo {
+            background-color: #7a0000;
+            color: #ffffff;
+        }
+
+        /* ---- FORMULÁRIOS ---- */
+        .form-grupo {
+            margin-bottom: 18px;
+        }
+
+        .form-grupo label {
+            display: block;
+            font-size: 13px;
+            color: #999999;
+            margin-bottom: 6px;
+        }
+
+        .form-grupo input,
+        .form-grupo select,
+        .form-grupo textarea {
+            width: 100%;
+            background-color: #2b2b2b;
+            border: 1px solid #3a3a3a;
+            border-radius: 4px;
+            padding: 9px 12px;
+            color: #e0e0e0;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .form-grupo input:focus,
+        .form-grupo select:focus,
+        .form-grupo textarea:focus {
+            border-color: #cc0000;
+        }
+
+        .form-grupo textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .erro-campo {
+            color: #ff4444;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        /* ---- ALERTAS ---- */
+        .alerta {
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .alerta-sucesso {
+            background-color: #0d2e1a;
+            border: 1px solid #1a5c33;
+            color: #4caf7a;
+        }
+
+        .alerta-erro {
+            background-color: #2e0d0d;
+            border: 1px solid #5c1a1a;
+            color: #f48080;
+        }
+    </style>
+    @yield('estilos')
 </head>
+<body>
 
-<body class="font-sans antialiased bg-black text-white">
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            {{-- Coloque o logo em: public/images/logo.png (160x40px) --}}
+            {{-- <img src="{{ asset('images/logo.png') }}" alt="Logo"> --}}
+            <h1>Sistema <span>•</span> Vendas</h1>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="{{ route('dashboard') }}"
+               class="{{ request()->routeIs('dashboard') ? 'ativo' : '' }}">
+                <span class="icone">⊞</span> Dashboard
+            </a>
+            <a href="{{ route('clientes.index') }}"
+               class="{{ request()->routeIs('clientes.*') ? 'ativo' : '' }}">
+                <span class="icone">👤</span> Clientes
+            </a>
+            <a href="{{ route('produtos.index') }}"
+               class="{{ request()->routeIs('produtos.*') ? 'ativo' : '' }}">
+                <span class="icone">📦</span> Produtos
+            </a>
+            <a href="{{ route('vendas.index') }}"
+               class="{{ request()->routeIs('vendas.*') ? 'ativo' : '' }}">
+                <span class="icone">🛒</span> Vendas
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            Logado como <strong>{{ auth()->user()->name }}</strong><br>
+            <a href="{{ route('logout') }}"
+               onclick="event.preventDefault(); document.getElementById('form-logout').submit();">
+               Sair
+            </a>
+            <form id="form-logout" action="{{ route('logout') }}" method="POST" style="display:none;">
+                @csrf
+            </form>
+        </div>
+    </div>
 
-    <div class="min-h-screen bg-black">
+    <div class="conteudo">
+        @if(session('sucesso'))
+            <div class="alerta alerta-sucesso">{{ session('sucesso') }}</div>
+        @endif
 
-        @include('layouts.navigation')
+        @if(session('erro'))
+            <div class="alerta alerta-erro">{{ session('erro') }}</div>
+        @endif
 
-        @isset($header)
-            <header class="bg-zinc-900 border-b-2 border-red-600 shadow-lg">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <h1 class="text-3xl font-bold text-red-500">
-                        {{ $header }}
-                    </h1>
-                </div>
-            </header>
-        @endisset
-
-        <main class="p-6">
-            {{ $slot }}
-        </main>
-
+        @yield('conteudo')
     </div>
 
 </body>

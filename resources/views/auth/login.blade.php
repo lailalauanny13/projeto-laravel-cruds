@@ -1,112 +1,198 @@
-<x-guest-layout>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – Sistema de Vendas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <div class="min-h-screen flex items-center justify-center bg-black">
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #141414;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        <div class="w-full max-w-md bg-zinc-900 rounded-3xl shadow-2xl p-10">
+        .login-wrapper {
+            display: flex;
+            width: 820px;
+            min-height: 480px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+        }
 
-            <h1 class="text-5xl font-bold text-center text-red-600 mb-2">
-                Larpintmax
-            </h1>
+        /* painel esquerdo: coloque uma imagem de fundo aqui */
+        /* Imagem: public/images/login-bg.jpg  (aprox. 400x480px, tema empresarial) */
+        .login-visual {
+            flex: 1;
+            background-color: #cc0000;
+            background-image: url('/images/login-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 32px;
+        }
 
-            <p class="text-center text-gray-400 mb-8">
-                Faça login para acessar o sistema
-            </p>
+        .login-visual h2 {
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 1.3;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
 
-            <!-- Session Status -->
-            <x-auth-session-status class="mb-4 text-green-500" :status="session('status')" />
+        .login-visual p {
+            color: rgba(255,255,255,0.75);
+            font-size: 14px;
+            margin-top: 8px;
+        }
 
-            <form method="POST" action="{{ route('login') }}">
+        /* painel direito: formulário */
+        .login-form-area {
+            width: 360px;
+            background-color: #1e1e1e;
+            padding: 48px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-                @csrf
+        .login-form-area h1 {
+            font-size: 20px;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
 
-                <!-- Email -->
-                <div>
-                    <label class="block text-white mb-2">
-                        E-mail
-                    </label>
+        .login-form-area .subtitulo {
+            font-size: 13px;
+            color: #777777;
+            margin-bottom: 32px;
+        }
 
-                    <input
-                        id="email"
-                        type="email"
-                        name="email"
-                        value="{{ old('email') }}"
-                        required
-                        autofocus
-                        autocomplete="username"
-                        class="w-full bg-zinc-800 text-white border border-zinc-700 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
-                    >
+        .campo {
+            margin-bottom: 18px;
+        }
 
-                    <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-500" />
-                </div>
+        .campo label {
+            display: block;
+            font-size: 12px;
+            color: #888888;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-                <!-- Senha -->
-                <div class="mt-5">
+        .campo input {
+            width: 100%;
+            background-color: #2a2a2a;
+            border: 1px solid #333333;
+            border-radius: 4px;
+            padding: 10px 13px;
+            color: #e0e0e0;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s;
+        }
 
-                    <label class="block text-white mb-2">
-                        Senha
-                    </label>
+        .campo input:focus {
+            border-color: #cc0000;
+        }
 
-                    <input
-                        id="password"
-                        type="password"
-                        name="password"
-                        required
-                        autocomplete="current-password"
-                        class="w-full bg-zinc-800 text-white border border-zinc-700 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
-                    >
+        .erro-campo {
+            color: #ff5555;
+            font-size: 12px;
+            margin-top: 5px;
+        }
 
-                    <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-500" />
+        .alerta-erro {
+            background-color: #2e0d0d;
+            border: 1px solid #5c1a1a;
+            color: #f48080;
+            padding: 10px 14px;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
 
-                </div>
+        .btn-entrar {
+            width: 100%;
+            background-color: #cc0000;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 11px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: background-color 0.15s;
+            margin-top: 8px;
+        }
 
-                <!-- Lembrar-me -->
-                <div class="mt-5">
+        .btn-entrar:hover {
+            background-color: #aa0000;
+        }
+    </style>
+</head>
+<body>
 
-                    <label class="inline-flex items-center">
+<div class="login-wrapper">
 
-                        <input
-                            id="remember_me"
-                            type="checkbox"
-                            name="remember"
-                            class="rounded border-zinc-700 text-red-600 focus:ring-red-600"
-                        >
-
-                        <span class="ml-2 text-gray-400">
-                            Lembrar-me
-                        </span>
-
-                    </label>
-
-                </div>
-
-                <!-- Esqueci a senha -->
-                @if (Route::has('password.request'))
-
-                    <div class="mt-4">
-
-                        <a
-                            class="text-sm text-gray-400 hover:text-red-500"
-                            href="{{ route('password.request') }}"
-                        >
-                            Esqueceu sua senha?
-                        </a>
-
-                    </div>
-
-                @endif
-
-                <!-- Botão -->
-                <button
-                    type="submit"
-                    class="w-full mt-8 bg-red-600 hover:bg-red-700 duration-300 text-white py-3 rounded-xl font-bold"
-                >
-                    Entrar
-                </button>
-
-            </form>
-
-        </div>
-
+    <div class="login-visual">
+        <h2>Gerencie seus<br>clientes, produtos<br>e vendas.</h2>
+        <p>Tudo num só lugar.</p>
     </div>
 
-</x-guest-layout>
+    <div class="login-form-area">
+        <h1>Bem-vindo</h1>
+        <p class="subtitulo">Faça login para continuar</p>
+
+        @if($errors->any())
+            <div class="alerta-erro">E-mail ou senha incorretos.</div>
+        @endif
+
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+
+            <div class="campo">
+                <label for="email">E-mail</label>
+                <input type="email"
+                       id="email"
+                       name="email"
+                       value="{{ old('email') }}"
+                       placeholder="seu@email.com"
+                       autofocus>
+                @error('email')
+                    <span class="erro-campo">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="campo">
+                <label for="password">Senha</label>
+                <input type="password"
+                       id="password"
+                       name="password"
+                       placeholder="••••••••">
+                @error('password')
+                    <span class="erro-campo">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <button type="submit" class="btn-entrar">Entrar</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -9,49 +9,57 @@ class ClienteController extends Controller
 {
     public function index()
     {
-        $clientes = Cliente::all();
+        $clientes = Cliente::orderBy('nome')->paginate(10);
         return view('clientes.index', compact('clientes'));
     }
 
     public function create()
     {
-        return view('clientes.create');
+        return view('clientes.form');
     }
 
     public function store(Request $request)
     {
-        Cliente::create($request->all());
+        $request->validate([
+            'nome'     => 'required|string|max:120',
+            'email'    => 'nullable|email|max:180',
+            'telefone' => 'nullable|string|max:20',
+            'cpf'      => 'nullable|string|max:14',
+            'endereco' => 'nullable|string|max:255',
+        ]);
 
-        return redirect()->route('clientes.index');
+        Cliente::create($request->only('nome', 'email', 'telefone', 'cpf', 'endereco'));
+
+        return redirect()->route('clientes.index')
+                         ->with('sucesso', 'Cliente cadastrado com sucesso!');
     }
 
-    public function show(string $id)
+    public function edit(Cliente $cliente)
     {
-        //
+        return view('clientes.form', compact('cliente'));
     }
 
-    public function edit(string $id)
+    public function update(Request $request, Cliente $cliente)
     {
-        $cliente = Cliente::findOrFail($id);
+        $request->validate([
+            'nome'     => 'required|string|max:120',
+            'email'    => 'nullable|email|max:180',
+            'telefone' => 'nullable|string|max:20',
+            'cpf'      => 'nullable|string|max:14',
+            'endereco' => 'nullable|string|max:255',
+        ]);
 
-        return view('clientes.edit', compact('cliente'));
+        $cliente->update($request->only('nome', 'email', 'telefone', 'cpf', 'endereco'));
+
+        return redirect()->route('clientes.index')
+                         ->with('sucesso', 'Cliente atualizado com sucesso!');
     }
 
-    public function update(Request $request, string $id)
+    public function destroy(Cliente $cliente)
     {
-        $cliente = Cliente::findOrFail($id);
-
-        $cliente->update($request->all());
-
-        return redirect()->route('clientes.index');
-    }
-
-    public function destroy(string $id)
-    {
-        $cliente = Cliente::findOrFail($id);
-
         $cliente->delete();
 
-        return redirect()->route('clientes.index');
+        return redirect()->route('clientes.index')
+                         ->with('sucesso', 'Cliente excluído com sucesso!');
     }
 }
