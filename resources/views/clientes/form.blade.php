@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', isset($cliente) ? 'Editar Cliente' : 'Novo Cliente')
+@section('title', isset($cliente) ? 'Editar Cliente — Larpintmax' : 'Novo Cliente — Larpintmax')
 
 @section('conteudo')
 

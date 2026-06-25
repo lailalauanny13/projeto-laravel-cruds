@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Sistema de Vendas')</title>
+    <title>@yield('title', 'Larpintmax')</title>
     <style>
         * {
             margin: 0;
@@ -32,27 +32,34 @@
         }
 
         .sidebar-logo {
-            padding: 28px 20px 22px;
+            padding: 24px 20px 20px;
             border-bottom: 1px solid #2a2a2a;
         }
 
-        .sidebar-logo h1 {
-            font-size: 18px;
-            color: #ffffff;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .sidebar-logo span {
-            color: #cc0000;
-        }
-
-        /* imagem do logo: coloque em public/images/logo.png (aprox. 160x40px) */
+        /* Logo: coloque em public/images/logo.png (160x50px) */
         .sidebar-logo img {
             width: 100%;
             max-width: 160px;
-            margin-bottom: 8px;
             display: block;
+            margin-bottom: 6px;
+        }
+
+        .sidebar-logo .nome-empresa {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-logo .nome-empresa span {
+            color: #cc0000;
+        }
+
+        .sidebar-logo .slogan {
+            font-size: 11px;
+            color: #666666;
+            margin-top: 3px;
+            letter-spacing: 0.3px;
         }
 
         .sidebar-nav {
@@ -61,7 +68,9 @@
         }
 
         .sidebar-nav a {
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             padding: 12px 20px;
             color: #aaaaaa;
             text-decoration: none;
@@ -78,23 +87,35 @@
         }
 
         .sidebar-nav .icone {
-            margin-right: 8px;
-            font-size: 15px;
+            font-size: 17px;
+            width: 22px;
+            text-align: center;
         }
 
         .sidebar-footer {
             padding: 16px 20px;
             border-top: 1px solid #2a2a2a;
             font-size: 13px;
-            color: #666;
+            color: #555;
+        }
+
+        .sidebar-footer strong {
+            color: #999;
         }
 
         .sidebar-footer a {
             color: #cc0000;
             text-decoration: none;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 4px;
         }
 
-        /* ---- CONTEÚDO PRINCIPAL ---- */
+        .sidebar-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ---- CONTEÚDO ---- */
         .conteudo {
             margin-left: 230px;
             padding: 32px 36px;
@@ -114,7 +135,7 @@
             font-weight: 600;
         }
 
-        /* ---- CARDS / TABELAS ---- */
+        /* ---- CARDS ---- */
         .card {
             background-color: #222222;
             border: 1px solid #2e2e2e;
@@ -123,6 +144,7 @@
             margin-bottom: 24px;
         }
 
+        /* ---- TABELA ---- */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -250,14 +272,16 @@
 
     <div class="sidebar">
         <div class="sidebar-logo">
-            {{-- Coloque o logo em: public/images/logo.png (160x40px) --}}
-            {{-- <img src="{{ asset('images/logo.png') }}" alt="Logo"> --}}
-            <h1>Sistema <span>•</span> Vendas</h1>
+            {{-- Logo: coloque em public/images/logo.png (160x50px) --}}
+            {{-- <img src="{{ asset('images/logo.png') }}" alt="Larpintmax"> --}}
+            <div class="nome-empresa">LAR<span>PINT</span>MAX</div>
+            <div class="slogan">Sistema de Gestão</div>
         </div>
+
         <nav class="sidebar-nav">
             <a href="{{ route('dashboard') }}"
                class="{{ request()->routeIs('dashboard') ? 'ativo' : '' }}">
-                <span class="icone">⊞</span> Dashboard
+                <span class="icone">🏠</span> Início
             </a>
             <a href="{{ route('clientes.index') }}"
                class="{{ request()->routeIs('clientes.*') ? 'ativo' : '' }}">
@@ -265,18 +289,19 @@
             </a>
             <a href="{{ route('produtos.index') }}"
                class="{{ request()->routeIs('produtos.*') ? 'ativo' : '' }}">
-                <span class="icone">📦</span> Produtos
+                <span class="icone">🪣</span> Produtos
             </a>
             <a href="{{ route('vendas.index') }}"
                class="{{ request()->routeIs('vendas.*') ? 'ativo' : '' }}">
-                <span class="icone">🛒</span> Vendas
+                <span class="icone">🧾</span> Vendas
             </a>
         </nav>
+
         <div class="sidebar-footer">
-            Logado como <strong>{{ auth()->user()->name }}</strong><br>
+            <strong>{{ auth()->user()->name }}</strong><br>
             <a href="{{ route('logout') }}"
                onclick="event.preventDefault(); document.getElementById('form-logout').submit();">
-               Sair
+               Sair do sistema
             </a>
             <form id="form-logout" action="{{ route('logout') }}" method="POST" style="display:none;">
                 @csrf
@@ -286,11 +311,11 @@
 
     <div class="conteudo">
         @if(session('sucesso'))
-            <div class="alerta alerta-sucesso">{{ session('sucesso') }}</div>
+            <div class="alerta alerta-sucesso">✔ {{ session('sucesso') }}</div>
         @endif
 
         @if(session('erro'))
-            <div class="alerta alerta-erro">{{ session('erro') }}</div>
+            <div class="alerta alerta-erro">✖ {{ session('erro') }}</div>
         @endif
 
         @yield('conteudo')

@@ -1,4 +1,4 @@
-```php
+
 <x-app-layout>
 
 <div class="min-h-screen bg-black text-white p-8">
@@ -69,4 +69,4 @@
 </div>
 
 </x-app-layout>
-```
+

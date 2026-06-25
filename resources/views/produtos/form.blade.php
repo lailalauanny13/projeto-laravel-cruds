@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', isset($produto) ? 'Editar Produto' : 'Novo Produto')
+@section('title', isset($produto) ? 'Editar Produto — Larpintmax' : 'Novo Produto — Larpintmax')
 
 @section('conteudo')
 
@@ -24,7 +24,7 @@
                    id="nome"
                    name="nome"
                    value="{{ old('nome', $produto->nome ?? '') }}"
-                   placeholder="Ex: Camiseta Básica">
+               placeholder="Ex: Tinta Acrílica Branca 18L">
             @error('nome')
                 <span class="erro-campo">{{ $message }}</span>
             @enderror

@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login – Sistema de Vendas</title>
+    <title>Login — Larpintmax</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -29,11 +25,11 @@
             box-shadow: 0 8px 40px rgba(0,0,0,0.6);
         }
 
-        /* painel esquerdo: coloque uma imagem de fundo aqui */
-        /* Imagem: public/images/login-bg.jpg  (aprox. 400x480px, tema empresarial) */
+        /* Painel esquerdo */
+        /* Imagem de fundo: public/images/login-bg.jpg (400x480px, foto de pintura/tinta) */
         .login-visual {
             flex: 1;
-            background-color: #cc0000;
+            background-color: #aa0000;
             background-image: url('/images/login-bg.jpg');
             background-size: cover;
             background-position: center;
@@ -41,23 +37,39 @@
             flex-direction: column;
             justify-content: flex-end;
             padding: 32px;
+            position: relative;
         }
 
-        .login-visual h2 {
+        .login-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.75) 40%, transparent);
+        }
+
+        .login-visual-texto {
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-visual-texto .marca {
+            font-size: 28px;
+            font-weight: 800;
             color: #ffffff;
-            font-size: 26px;
-            font-weight: 700;
-            line-height: 1.3;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
         }
 
-        .login-visual p {
-            color: rgba(255,255,255,0.75);
-            font-size: 14px;
-            margin-top: 8px;
+        .login-visual-texto .marca span {
+            color: #ffcccc;
         }
 
-        /* painel direito: formulário */
+        .login-visual-texto p {
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        /* Painel direito */
         .login-form-area {
             width: 360px;
             background-color: #1e1e1e;
@@ -70,12 +82,12 @@
         .login-form-area h1 {
             font-size: 20px;
             color: #ffffff;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .login-form-area .subtitulo {
             font-size: 13px;
-            color: #777777;
+            color: #666;
             margin-bottom: 32px;
         }
 
@@ -85,17 +97,17 @@
 
         .campo label {
             display: block;
-            font-size: 12px;
-            color: #888888;
+            font-size: 11px;
+            color: #777;
             margin-bottom: 6px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
         }
 
         .campo input {
             width: 100%;
             background-color: #2a2a2a;
-            border: 1px solid #333333;
+            border: 1px solid #333;
             border-radius: 4px;
             padding: 10px 13px;
             color: #e0e0e0;
@@ -149,13 +161,15 @@
 <div class="login-wrapper">
 
     <div class="login-visual">
-        <h2>Gerencie seus<br>clientes, produtos<br>e vendas.</h2>
-        <p>Tudo num só lugar.</p>
+        <div class="login-visual-texto">
+            <div class="marca">LAR<span>PINT</span>MAX</div>
+            <p>Sistema de gestão interno</p>
+        </div>
     </div>
 
     <div class="login-form-area">
         <h1>Bem-vindo</h1>
-        <p class="subtitulo">Faça login para continuar</p>
+        <p class="subtitulo">Faça login para acessar o sistema</p>
 
         @if($errors->any())
             <div class="alerta-erro">E-mail ou senha incorretos.</div>
