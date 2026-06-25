@@ -13,7 +13,6 @@
 
     <div class="card" style="border-top: 3px solid #cc0000; text-align: center;">
         {{-- Ícone: public/images/icone-clientes.png (48x48px) --}}
-        <div style="font-size: 38px; margin-bottom: 10px;">👤</div>
         <div style="font-size: 34px; font-weight: 700; color: #ffffff;">{{ $totalClientes }}</div>
         <div style="font-size: 13px; color: #777; margin-top: 4px;">Clientes cadastrados</div>
         <a href="{{ route('clientes.index') }}" class="btn btn-cinza" style="margin-top: 14px; font-size: 12px;">Ver todos</a>
@@ -21,7 +20,6 @@
 
     <div class="card" style="border-top: 3px solid #cc0000; text-align: center;">
         {{-- Ícone: public/images/icone-produtos.png (48x48px) --}}
-        <div style="font-size: 38px; margin-bottom: 10px;">🪣</div>
         <div style="font-size: 34px; font-weight: 700; color: #ffffff;">{{ $totalProdutos }}</div>
         <div style="font-size: 13px; color: #777; margin-top: 4px;">Produtos em estoque</div>
         <a href="{{ route('produtos.index') }}" class="btn btn-cinza" style="margin-top: 14px; font-size: 12px;">Ver todos</a>
@@ -29,7 +27,6 @@
 
     <div class="card" style="border-top: 3px solid #cc0000; text-align: center;">
         {{-- Ícone: public/images/icone-vendas.png (48x48px) --}}
-        <div style="font-size: 38px; margin-bottom: 10px;">🧾</div>
         <div style="font-size: 34px; font-weight: 700; color: #ffffff;">{{ $totalVendas }}</div>
         <div style="font-size: 13px; color: #777; margin-top: 4px;">Vendas realizadas</div>
         <a href="{{ route('vendas.index') }}" class="btn btn-cinza" style="margin-top: 14px; font-size: 12px;">Ver todas</a>
